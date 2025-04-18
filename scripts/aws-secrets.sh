@@ -5,9 +5,18 @@
 # Description: Script for managing AWS secrets with complex operations
 
 # Source the library
-LIB_DIR="$(dirname "${BASH_SOURCE[0]}")/.."
-# shellcheck disable=SC1091
-source "$LIB_DIR/lib-loader.sh"
+if [ -z "${BASH_LIBRARY_PATH:-}" ]; then
+    echo "Error: BASH_LIBRARY_PATH is not set"
+    exit 1
+fi
+
+if [ ! -f "$BASH_LIBRARY_PATH/lib-loader.sh" ]; then
+    echo "Error: Library file not found at $BASH_LIBRARY_PATH/lib-loader.sh"
+    exit 1
+fi
+
+# shellcheck source=/dev/null
+source "$BASH_LIBRARY_PATH/lib-loader.sh"
 
 # Function: validate_secret_name
 # Description: Validates the format of a secret name

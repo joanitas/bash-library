@@ -13,7 +13,7 @@ BIN_DIR="$HOME/.local/bin"
 if [ ! -d "$INSTALL_DIR" ]; then
     echo "Error: bash-library is not installed."
     echo "Please run the installation script first:"
-    echo "curl -sSL https://raw.githubusercontent.com/your-org/bash-library/main/install-remote.sh | bash"
+    echo "curl -sSL https://raw.githubusercontent.com/hperezrodal/bash-library/main/install-remote.sh | bash"
     exit 1
 fi
 
@@ -21,7 +21,7 @@ fi
 if [ ! -d "$INSTALL_DIR/.git" ]; then
     echo "Error: Installation is not a git repository."
     echo "Please reinstall using the installation script:"
-    echo "curl -sSL https://raw.githubusercontent.com/your-org/bash-library/main/install-remote.sh | bash"
+    echo "curl -sSL https://raw.githubusercontent.com/hperezrodal/bash-library/main/install-remote.sh | bash"
     exit 1
 fi
 

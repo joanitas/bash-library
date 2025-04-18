@@ -7,8 +7,19 @@ set -euo pipefail
 
 # Configuration
 REPO_URL="https://github.com/hperezrodal/bash-library"
-INSTALL_DIR="${BASH_LIBRARY_PATH:-$HOME/.local/lib/bash-library}"
-BIN_DIR="$HOME/.local/bin"
+SYSTEM_INSTALL=${SYSTEM_INSTALL:-false}
+
+# Determine installation paths based on whether it's a system install
+if [ "$SYSTEM_INSTALL" = "true" ]; then
+    INSTALL_DIR="${BASH_LIBRARY_PATH:-/usr/local/lib/bash-library}"
+    BIN_DIR="/usr/local/bin"
+    PROFILE_DIR="/etc/profile.d"
+else
+    INSTALL_DIR="${BASH_LIBRARY_PATH:-$HOME/.local/lib/bash-library}"
+    BIN_DIR="$HOME/.local/bin"
+    PROFILE_DIR="$HOME"
+fi
+
 TEMP_DIR=$(mktemp -d)
 
 # Cleanup function
@@ -64,19 +75,35 @@ chmod 755 "$INSTALL_DIR/scripts"/*.sh
 
 # Add to shell initialization
 echo "Adding to shell initialization..."
-for shell_rc in ~/.bashrc ~/.zshrc; do
-    if [ -f "$shell_rc" ]; then
-        if ! grep -q "source $INSTALL_DIR/lib-loader.sh" "$shell_rc"; then
-            {
-                echo "# Bash Library"
-                echo "export BASH_LIBRARY_PATH=\"$INSTALL_DIR\""
-                echo "export PATH=\"\$PATH:$BIN_DIR\""
-                echo "source \"$INSTALL_DIR/lib-loader.sh\""
-            } >> "$shell_rc"
+if [ "$SYSTEM_INSTALL" = "true" ]; then
+    # System-wide installation
+    {
+        echo "export BASH_LIBRARY_PATH=\"$INSTALL_DIR\""
+        echo "export PATH=\"\$PATH:$BIN_DIR\""
+        echo "source \"$INSTALL_DIR/lib-loader.sh\""
+    } > "$PROFILE_DIR/bash-library.sh"
+    chmod 644 "$PROFILE_DIR/bash-library.sh"
+else
+    # User installation
+    for shell_rc in ~/.bashrc ~/.zshrc; do
+        if [ -f "$shell_rc" ]; then
+            if ! grep -q "source $INSTALL_DIR/lib-loader.sh" "$shell_rc"; then
+                {
+                    echo "# Bash Library"
+                    echo "export BASH_LIBRARY_PATH=\"$INSTALL_DIR\""
+                    echo "export PATH=\"\$PATH:$BIN_DIR\""
+                    echo "source \"$INSTALL_DIR/lib-loader.sh\""
+                } >> "$shell_rc"
+            fi
         fi
-    fi
-done
+    done
+fi
 
 echo "Installation complete!"
-echo "The bash library is now available in your user space."
-echo "You may need to restart your shell or run: source ~/.bashrc" 
+if [ "$SYSTEM_INSTALL" = "true" ]; then
+    echo "The bash library has been installed system-wide."
+    echo "You may need to restart your shell or run: source /etc/profile.d/bash-library.sh"
+else
+    echo "The bash library is now available in your user space."
+    echo "You may need to restart your shell or run: source ~/.bashrc"
+fi 
