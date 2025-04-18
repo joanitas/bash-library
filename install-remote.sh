@@ -55,6 +55,7 @@ else
     git clone "$REPO_URL" "$TEMP_DIR"
     cp -r "$TEMP_DIR/modules" "$INSTALL_DIR/"
     cp -r "$TEMP_DIR/scripts" "$INSTALL_DIR/"
+    cp "$TEMP_DIR/version" "$INSTALL_DIR/"
     cp "$TEMP_DIR/lib-loader.sh" "$INSTALL_DIR/"
 fi
 
@@ -74,7 +75,7 @@ chmod 644 "$INSTALL_DIR/modules"/*.sh
 chmod 755 "$INSTALL_DIR/scripts"/*.sh
 
 # Read version from version file
-VERSION=$(cat version)
+VERSION=$(cat "$INSTALL_DIR/version")
 
 # Add to shell initialization
 echo "Adding to shell initialization..."
