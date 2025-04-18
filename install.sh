@@ -10,6 +10,9 @@ INSTALL_DIR="${BASH_LIBRARY_PATH:-/usr/local/lib/bash-library}"
 BIN_DIR="/usr/local/bin"
 PROFILE_DIR="/etc/profile.d"
 
+# Read version from version file
+VERSION=$(cat version)
+
 # Check if running as root
 if [ "$(id -u)" -ne 0 ]; then
     echo "This script must be run as root"
@@ -54,6 +57,7 @@ mkdir -p "$PROFILE_DIR"
 {
     echo "# Bash Library"
     echo "export BASH_LIBRARY_PATH=\"$INSTALL_DIR\""
+    echo "export BASH_LIBRARY_VERSION=\"$VERSION\""
     echo "export PATH=\"\$PATH:$BIN_DIR\""
     echo "source \"$INSTALL_DIR/lib-loader.sh\""
 } > "$PROFILE_DIR/bash-library.sh"
@@ -67,6 +71,7 @@ for shell_rc in ~/.bashrc ~/.zshrc; do
             {
                 echo "# Bash Library"
                 echo "export BASH_LIBRARY_PATH=\"$INSTALL_DIR\""
+                echo "export BASH_LIBRARY_VERSION=\"$VERSION\""
                 echo "export PATH=\"\$PATH:$BIN_DIR\""
                 echo "source \"$INSTALL_DIR/lib-loader.sh\""
             } >> "$shell_rc"

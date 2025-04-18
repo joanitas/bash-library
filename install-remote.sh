@@ -9,6 +9,9 @@ set -euo pipefail
 REPO_URL="https://github.com/hperezrodal/bash-library"
 SYSTEM_INSTALL=${SYSTEM_INSTALL:-false}
 
+# Read version from version file
+VERSION=$(cat version)
+
 # Determine installation paths based on whether it's a system install
 if [ "$SYSTEM_INSTALL" = "true" ]; then
     INSTALL_DIR="${BASH_LIBRARY_PATH:-/usr/local/lib/bash-library}"
@@ -79,6 +82,7 @@ if [ "$SYSTEM_INSTALL" = "true" ]; then
     # System-wide installation
     {
         echo "export BASH_LIBRARY_PATH=\"$INSTALL_DIR\""
+        echo "export BASH_LIBRARY_VERSION=\"$VERSION\""
         echo "export PATH=\"\$PATH:$BIN_DIR\""
         echo "source \"$INSTALL_DIR/lib-loader.sh\""
     } > "$PROFILE_DIR/bash-library.sh"
@@ -91,6 +95,7 @@ else
                 {
                     echo "# Bash Library"
                     echo "export BASH_LIBRARY_PATH=\"$INSTALL_DIR\""
+                    echo "export BASH_LIBRARY_VERSION=\"$VERSION\""
                     echo "export PATH=\"\$PATH:$BIN_DIR\""
                     echo "source \"$INSTALL_DIR/lib-loader.sh\""
                 } >> "$shell_rc"
