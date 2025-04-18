@@ -9,9 +9,6 @@ set -euo pipefail
 REPO_URL="https://github.com/hperezrodal/bash-library"
 SYSTEM_INSTALL=${SYSTEM_INSTALL:-false}
 
-# Read version from version file
-VERSION=$(cat version)
-
 # Determine installation paths based on whether it's a system install
 if [ "$SYSTEM_INSTALL" = "true" ]; then
     INSTALL_DIR="${BASH_LIBRARY_PATH:-/usr/local/lib/bash-library}"
@@ -75,6 +72,9 @@ echo "Setting permissions..."
 chmod -R 755 "$INSTALL_DIR"
 chmod 644 "$INSTALL_DIR/modules"/*.sh
 chmod 755 "$INSTALL_DIR/scripts"/*.sh
+
+# Read version from version file
+VERSION=$(cat version)
 
 # Add to shell initialization
 echo "Adding to shell initialization..."
