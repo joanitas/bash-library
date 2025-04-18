@@ -2,7 +2,7 @@
 
 A comprehensive collection of reusable bash functions and scripts for common DevOps and system administration tasks, designed to make shell scripting more efficient and maintainable.
 
-![GitHub release](https://img.shields.io/github/v/release/bash-library/bash-library?style=flat-square)
+![GitHub Release](https://img.shields.io/github/v/release/bash-library/bash-library?style=flat-square)
 [![GitHub Issues](https://img.shields.io/github/issues/hperezrodal/bash-library)](https://github.com/hperezrodal/bash-library/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/hperezrodal/bash-library)](https://github.com/hperezrodal/bash-library/stargazers)
 ![Code Style: ShellCheck](https://img.shields.io/badge/code%20style-shellcheck-brightgreen?style=flat-square)
@@ -41,7 +41,7 @@ A comprehensive collection of reusable bash functions and scripts for common Dev
 ### Quick Install
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/hperezrodal/bash-library/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/hperezrodal/bash-library/main/install-remote.sh | bash
 ```
 
 ### Zsh Installation
